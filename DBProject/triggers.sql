@@ -1,0 +1,10 @@
+DELIMITER //
+
+CREATE TRIGGER invInsert AFTER INSERT ON FOOD
+	FOR EACH ROW BEGIN
+		INSERT INTO MV_INVENTORY
+			SELECT DISTINCT NEW.foodid, NEW.name, NEW.ftype, NEW.shelf_life, NEW.fdate, NEW.qty
+			FROM FOOD WHERE NEW.qty > 0;
+	END; //
+	
+	

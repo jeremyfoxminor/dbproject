@@ -20,6 +20,7 @@ CREATE TABLE FOOD (
 	name varchar(45),
 	ftype varchar(15),
 	shelf_life int,
+	fdate DATE,
 	qty int,
 	PRIMARY KEY(foodid));
 	
