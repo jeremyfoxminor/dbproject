@@ -11,7 +11,7 @@ CREATE TABLE RECIPES (
 	r_id char(4) NOT NULL,
 	name varchar(45),
 	rtype varchar(15),
-	ravail boolean,
+	ravail boolean NOT NULL,
 	rdesc text,
 	PRIMARY KEY(r_id));
 	
@@ -20,6 +20,7 @@ CREATE TABLE FOOD (
 	name varchar(45),
 	ftype varchar(15),
 	shelf_life int,
+	qty int,
 	PRIMARY KEY(foodid));
 	
 CREATE TABLE R_USES (
@@ -56,4 +57,9 @@ CREATE TABLE U_COOKS (
 	PRIMARY KEY(userid, recipeid),
 	FOREIGN KEY(userid) REFERENCES USER(userid),
 	FOREIGN KEY(recipeid) REFERENCES RECIPES(r_id));
+	
+CREATE TABLE MV_INVENTORY AS SELECT * FROM FOOD WHERE qty <> 0;
+
+CREATE TABLE MV_RECIPES AS SELECT * FROM RECIPES WHERE ravail IS TRUE;
+
 	
