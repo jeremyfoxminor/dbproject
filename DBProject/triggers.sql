@@ -81,4 +81,40 @@ CREATE TRIGGER recipeUpdate AFTER UPDATE ON RECIPES
 	END; 
 	
 //
-
+delimiter $$
+CREATE TRIGGER setDietType
+	AFTER INSERT
+	ON R_USES FOR EACH ROW
+    BEGIN
+		DECLARE ingredient varchar(45);
+		SELECT ftype INTO @ingredient FROM FOOD WHERE FOOD.foodid=NEW.foodid;
+        
+        If @ingredient = 'carb'
+        THEN
+			UPDATE RECIPES
+            SET isPaleo = false, isKeto = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+        
+        IF @ingredient = 'meat'
+        THEN
+			UPDATE RECIPES
+            SET isVegan = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+        
+        IF @ingredient = 'dairy'
+		THEN
+			UPDATE RECIPES
+            SET isVegan = false, isDairyFree = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+        
+        IF @ingredient = 'animal product'
+		THEN
+			UPDATE RECIPES
+            SET isVegan = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+	END;
+$$ delimiter ;
