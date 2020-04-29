@@ -7,10 +7,10 @@ INSERT INTO RECIPES VALUES
 	(2, "Hamburger", "Americana", TRUE, "Just go to McDonalds");
 	
 INSERT INTO FOOD VALUES
-	(1, "Tortilla Chips", "Chips", 10, "2020-04-29", 35),
-	(2, "Chedda", "Cheese", 60, "2020-04-29", 35),
-	(3, "Bun", "Bread", 10, "2020-04-29", 35),
-	(4, "Beef", "Meat", 5, "2020-04-29", 35);
+	(1, "Tortilla Chips", "Chips", 10, "2020-04-20", 35),
+	(2, "Chedda", "Cheese", 60, "2020-04-20", 35),
+	(3, "Bun", "Bread", 10, "2020-04-20", 35),
+	(4, "Beef", "Meat", 5, "2020-04-20", 35);
 	
 INSERT INTO R_USES VALUES
 	(1, 1),
