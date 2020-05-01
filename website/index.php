@@ -22,6 +22,8 @@ if($conn->connect_error) {
 </head>
 	<body>
 
+
+
 		<div>
 			<h1>Select from the drop down to view a table</h1>
 			<form action="display_table.php" method="post">
@@ -42,6 +44,24 @@ while($row = mysqli_fetch_row($result)) {
 			  <input type="submit" value="Submit">
 			</form>
 		</div>
+
+		<div>
+			<h1>Add a user</h1>
+			<form>
+			<label for="uName">User Name: </label><input type="text" id="uName"><br>
+			<label for="uStreet">Street: </label><input type="text" id="uStreet">
+			<label for="uCity">City: </label><input type="text" id="uCity">
+			<label for="uState">State: </label><input type="text" id="uState">
+			<label for="uZip">Zip: </label><input type="text" id="uZip"><br>
+			<span>Is this a busines?</span>
+			<label for="yesBus">Yes</lable><input type="radio" name="isBus" id="yesBus" value="true">
+			<lable for="noBus">No</label><input type="radio" name="isBus" id="noBus" value="false" checked><br>
+			<label for="uManager">Manager Name: </label><input type="text" id="uManager">
+			<lable for="uType">Business Type: </label><input type="text" id="uType">
+			<br><input type="button" value="Add New User" id="userButton"><span id="userEntryPoint"></span>
+			</form>
+		</div>
+
 
 		<div>
 			<h1>Add a Recipe to our database with the form below</h1>
@@ -143,6 +163,26 @@ while($row = mysqli_fetch_row($result)) {
 				method: "post",
 				data: {name:name, desc:desc, ingredients:listOfIngredients},
 				success: function(result){$("#recipeEntryPoint").html(result);}
+			});
+		});
+		$("#userButton").click(function(){
+			var name = $("#uName").val();
+			var street = $("#uStreet").val();
+			var city = $("#uCity").val();
+			var state = $("#uState").val();
+			var zip = $("#uZip").val();
+			var isBus = $("input[name='isBus']:checked").val();
+			var mgr = $("#uManager").val();
+			var type = $("#uType").val();
+
+			console.log(isBus);
+			console.log(mgr);
+			console.log(type);
+			$.ajax({
+				url: "insert_user.php",
+				method: "post",
+				data: {name:name, street:street, city:city, state:state, zip:zip, isBus:isBus, mgr:mgr, type:type },
+				success: function(result){$("#userEntryPoint").html(result);}
 			});
 		});
 	});
