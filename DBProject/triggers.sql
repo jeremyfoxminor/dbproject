@@ -225,3 +225,40 @@ CREATE TRIGGER IF NOT EXISTS userUpdate AFTER UPDATE ON USER
 
 DELIMITER ;
 
+delimiter $$
+CREATE TRIGGER setDietType
+	AFTER INSERT
+	ON R_USES FOR EACH ROW
+    BEGIN
+		DECLARE ingredient varchar(45);
+		SELECT ftype INTO @ingredient FROM FOOD WHERE FOOD.foodid=NEW.foodid;
+        
+        If @ingredient = 'carb'
+        THEN
+			UPDATE RECIPES
+            SET paleo = false, keto = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+        
+        IF @ingredient = 'meat'
+        THEN
+			UPDATE RECIPES
+            SET vegan = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+        
+        IF @ingredient = 'dairy'
+		THEN
+			UPDATE RECIPES
+            SET vegan = false, dairy_free = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+        
+        IF @ingredient = 'animal product'
+		THEN
+			UPDATE RECIPES
+            SET vegan = false
+			WHERE RECIPES.r_id = NEW.recipeid;
+		END IF;
+	END;
+$$ delimiter ;
