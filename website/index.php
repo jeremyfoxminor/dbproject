@@ -53,7 +53,11 @@ while($row = mysqli_fetch_row($result)) {
 			<label for="uCity">City: </label><input type="text" id="uCity">
 			<label for="uState">State: </label><input type="text" id="uState">
 			<label for="uZip">Zip: </label><input type="text" id="uZip"><br>
-			<span>Is this a busines?</span>
+			<label for="uPhone1">Home Phone: </label>
+			<input type="tel" id="uPhone1" name="uPhone1" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+			<label for="uPhone2">Cell Phone: </label>
+			<input type="tel" id="uPhone2" name="uPhone2" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+			<br><span>Is this a busines?</span>
 			<label for="yesBus">Yes</lable><input type="radio" name="isBus" id="yesBus" value="true">
 			<lable for="noBus">No</label><input type="radio" name="isBus" id="noBus" value="false" checked><br>
 			<label for="uManager">Manager Name: </label><input type="text" id="uManager">
@@ -174,14 +178,15 @@ while($row = mysqli_fetch_row($result)) {
 			var isBus = $("input[name='isBus']:checked").val();
 			var mgr = $("#uManager").val();
 			var type = $("#uType").val();
-
+			var phone1 = $("#uPhone1").val();
+			var phone2 = $("#uPhone2").val();
 			console.log(isBus);
-			console.log(mgr);
-			console.log(type);
+			console.log(phone1);
+			console.log(phone2);
 			$.ajax({
 				url: "insert_user.php",
 				method: "post",
-				data: {name:name, street:street, city:city, state:state, zip:zip, isBus:isBus, mgr:mgr, type:type },
+				data: {name:name, street:street, city:city, state:state, zip:zip, isBus:isBus, mgr:mgr, type:type, phone1:phone1, phone2:phone2},
 				success: function(result){$("#userEntryPoint").html(result);}
 			});
 		});
