@@ -44,7 +44,7 @@ CREATE TABLE PHONE (
 	userid int auto_increment NOT NULL,
 	phone char(10) NOT NULL,
 	PRIMARY KEY(userid, phone),
-	FOREIGN KEY(userid) REFERENCES USER(userid));
+	FOREIGN KEY(userid) REFERENCES USER(userid) ON DELETE CASCADE);
 	
 CREATE TABLE U_COOKS (
 	userid int NOT NULL,
