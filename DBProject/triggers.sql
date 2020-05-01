@@ -151,9 +151,9 @@ CREATE TRIGGER IF NOT EXISTS recievesUpdate BEFORE UPDATE ON U_RECIEVES
 
 /* Triggers for user and business view */
 
-CREATE TRIGGER IF NOT EXISTS userInsert BEFORE INSERT ON USER
+CREATE TRIGGER userInsert BEFORE INSERT ON USER
 	FOR EACH ROW BEGIN
-	
+	DECLARE autoUpUserId int;
 		/* makes sure mgr/btype are null is not a business */
 		IF NEW.isBusiness IS FALSE
 		THEN
@@ -172,8 +172,23 @@ CREATE TRIGGER IF NOT EXISTS userInsert BEFORE INSERT ON USER
 		/* add user to business view if there a business */
 		IF NEW.isBusiness IS TRUE
 		THEN 
+		
+			IF NEW.userid = 0
+            THEN
+			
+            SELECT auto_increment into autoUpUserId
+			FROM information_schema.tables
+			WHERE table_name = 'USER' AND table_schema = database();
+			INSERT INTO businessView VALUES
+				(autoUpUserId, NEW.btype, NEW.mgr, NEW.name, NEW.street, NEW.city, NEW.state, NEW.zip);
+			
+            ELSE
+			
 			INSERT INTO businessView VALUES
 				(NEW.userid, NEW.btype, NEW.mgr, NEW.name, NEW.street, NEW.city, NEW.state, NEW.zip);
+		
+			END IF;
+            
 		END IF;
 	
 	END;
