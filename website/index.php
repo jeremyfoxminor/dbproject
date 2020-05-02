@@ -122,8 +122,46 @@ while($row = mysqli_fetch_row($result)) {
 			</form>
 		</div>
 
-		<div id="div1">
+		<div>
+			<h1>Add Inventory to a User</h1>
+			<select id="iName">
+<?php
+$sql = "SELECT * FROM USER";
 
+$result = $conn->query($sql);
+
+while($row = mysqli_fetch_row($result)) {
+	echo "<option value=".$row[0].">".$row[1]."</option>";
+}
+
+?>
+			</select>
+
+			<select id="iIngredient">
+<?php
+$sql = "SELECT * FROM FOOD";
+
+$result = $conn->query($sql);
+
+while($row = mysqli_fetch_row($result)) {
+	echo "<option value=".$row[0].">".$row[1]."</option>";
+}
+
+?>
+			</select>
+			<input type="date" id="iDate">
+			<select id="iMeas">
+		  	       <option value="Count">Count</option>";
+			       <option value="Cup">Cup</option>";
+ 				<option value="Ounce">Ounce</option>";
+       			 	<option value="Pound">Pound</option>";
+        			<option value="Teaspoon">Teaspoon</option>";
+        			<option value="Tablespoon">Tablespoon</option>";
+			</select>
+			<input type="number" id="iQty"  min=0>
+
+			<input type="button" value="Add Inventory" id="inventoryButton">
+			<p id="inventoryEntryPoint"></p>
 		</div>
 <script>
 	$(document).ready(function(){
@@ -188,6 +226,25 @@ while($row = mysqli_fetch_row($result)) {
 				method: "post",
 				data: {name:name, street:street, city:city, state:state, zip:zip, isBus:isBus, mgr:mgr, type:type, phone1:phone1, phone2:phone2},
 				success: function(result){$("#userEntryPoint").html(result);}
+			});
+		});
+		$("#inventoryButton").click(function(){
+			var name = $("#iName").val();
+			console.log(name);
+			var ing = $("#iIngredient").val();
+			console.log(ing);
+			var date = $("#iDate").val();
+			console.log(date);
+			var meas = $("#iMeas").val();
+			console.log(meas);
+			var qty = $("#iQty").val();
+			console.log(qty);
+
+			$.ajax({
+				url:"insert_inventory.php",
+				method:"post",
+				data: {name:name, ing:ing, date:date, meas:meas, qty:qty},
+				success: function(result){$("#inventoryEntryPoint").html(result);}
 			});
 		});
 	});
