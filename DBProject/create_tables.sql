@@ -53,13 +53,13 @@ CREATE TABLE U_COOKS (
 	FOREIGN KEY(userid) REFERENCES USER(userid),
 	FOREIGN KEY(recipeid) REFERENCES RECIPES(r_id));
 	
-CREATE TABLE U_RECIEVES (
+CREATE TABLE U_INVENTORY (
 	userid int NOT NULL,
 	foodid int NOT NULL,
 	date_recieved DATE,
 	qty int,
 	measurement char(15),
-	PRIMARY KEY(userid, foodid),
+	PRIMARY KEY(userid, foodid, date_recieved),
 	FOREIGN KEY(userid) REFERENCES USER(userid),
 	FOREIGN KEY(foodid) REFERENCES FOOD(foodid));
 
